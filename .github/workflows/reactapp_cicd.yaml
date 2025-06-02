@@ -27,11 +27,14 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: reactapp/package-lock.json
       
       - name: Install dependencies
+        working-directory: reactapp
         run: npm ci
       
       - name: Run tests
+        working-directory: reactapp
         run: npm test || echo "No tests found, would add tests in a real project"
 
   lint:
@@ -46,11 +49,14 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: reactapp/package-lock.json
       
       - name: Install dependencies
+        working-directory: reactapp
         run: npm ci
       
       - name: Run ESLint
+        working-directory: reactapp
         run: npm run lint
 
   build:
@@ -66,18 +72,21 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: reactapp/package-lock.json
       
       - name: Install dependencies
+        working-directory: reactapp
         run: npm ci
       
       - name: Build project
+        working-directory: reactapp
         run: npm run build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: dist/
+          path: reactapp/dist/
 
   push:
     runs-on: ubuntu-latest
@@ -100,11 +109,11 @@ jobs:
     - name: Build and Push action
       uses: docker/build-push-action@v6
       with:
-        context: .
-        file: ./Dockerfile
+        context: ./reactapp
+        file: ./reactapp/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/reactapp:${{github.run_id}}
-
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/reactapp:${{ github.run_id }}
+          
   update-newtag-in-helm-chart:
     runs-on: ubuntu-latest
 
