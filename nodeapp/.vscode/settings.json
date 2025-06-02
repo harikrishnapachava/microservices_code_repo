@@ -1,0 +1,5 @@
+{
+    "eslint.enable": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": false
+}
