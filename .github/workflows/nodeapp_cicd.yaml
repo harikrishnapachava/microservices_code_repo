@@ -1,5 +1,3 @@
-# CICD using GitHub actions
-
 name: nodeapp_cicd
 
 on:
@@ -30,7 +28,7 @@ jobs:
       - name: Install dependencies
         working-directory: nodeapp
         run: npm ci
-      
+
       - name: Run tests
         working-directory: nodeapp
         run: npm test || echo "No tests found, would add tests in a real project"
